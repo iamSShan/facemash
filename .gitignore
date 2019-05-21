@@ -1,3 +1,4 @@
-/masher/static/images/*
-/venv
+masher/static/images/*
+!masher/static/images/.gitkeep
+venv27/
 *.pyc
