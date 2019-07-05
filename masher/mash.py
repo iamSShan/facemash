@@ -4,6 +4,7 @@ import random
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from utility.elo import Elo
+from sqlalchemy import desc
 
 
 app = Flask(__name__)
@@ -105,6 +106,15 @@ def start():
         second_contestant.rating = rating2
         db.session.commit()
         return redirect(url_for('start'))
+
+
+@app.route('/ranking/<int:user_id>')
+def show_ranking(user_id):
+    selected_contestant = Contestant.query.get(user_id)
+    all_contestants = Contestant.query.order_by(desc(Contestant.rating)).all()
+
+    return render_template("ranking.html", selected_contestant=selected_contestant,
+                           all_contestants=all_contestants)
 
 
 @app.errorhandler(404)
