@@ -8,7 +8,8 @@ from sqlalchemy import desc
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://test_user:root@localhost/mash_db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://test_user:root@localhost/mash_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://mash_user:root@localhost/mash_db'
 # Initiate a DB object
 db = SQLAlchemy(app)
 
@@ -50,10 +51,14 @@ def populate_db():
 
     for image in os.listdir('static/images/'):
         # image_path = os.path.abspath(image)
-        file_name_list = image.split('-')
-        name = file_name_list[0] + " " + file_name_list[1]
-        # Populate db
         try:
+            file_name_list = image.split('-')
+            # As .gitkeep file is not to be included
+            if '.gitkeep' in file_name_list:
+                continue
+
+            name = file_name_list[0] + " " + file_name_list[1]
+            # Populate db
             new_contestant = Contestant(name=name, image=image)
             db.session.add(new_contestant)
             db.session.commit()
@@ -69,10 +74,12 @@ def populate_db():
 def get_random_contestant():
     # Get total count
     total_count = Contestant.query.count()
+    print total_count
     # Get random number b/w 1 and total count
     rand = random.randrange(1, total_count+1)
     # Get contestant at that index
     contestant = Contestant.query.get(rand)
+    print contestant
 
     return contestant
 
@@ -81,6 +88,7 @@ def get_random_contestant():
 def start():
     if request.method == "GET":
         contestants = [get_random_contestant(), get_random_contestant()]
+        # print contestants
         # Both contestant should not be same
         while contestants[0].id == contestants[1].id:
             contestants[1] = get_random_contestant()

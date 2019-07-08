@@ -30,4 +30,7 @@ class Elo:
             rating1 = rating1 + K * (0 - prob_1)
             rating2 = rating2 + K * (1 - prob_2)
 
+        rating1 = round(rating1, 2)
+        rating2 = round(rating2, 2)
+
         return rating1, rating2
