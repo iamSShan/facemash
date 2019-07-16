@@ -43,6 +43,9 @@ def populate_db():
     try:
         # Delete existing rows if any
         db.session.query(Contestant).delete()
+        # As everytime data from db is deleted in postgres, it's id sequence number next time start from last updated + 1 
+        # So allow sequence number to start from 1 only
+        db.session.execute('ALTER SEQUENCE "contestant_id_seq" RESTART WITH 1')
         db.session.commit()
     except Exception as e:
         print e
