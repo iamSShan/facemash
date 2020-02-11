@@ -11,7 +11,8 @@ class FaceSpider(CrawlSpider):
     def parse(self, response):
         image = ImageItem()
         image['title'] = response.xpath('//strong/text()').extract()
-        image['image_urls'] = response.xpath("//p/a/img/@src").extract()
+        image['image_urls'] = response.xpath("//p/a/img/@data-lazy-src").extract()
+        # image['image_urls'] = response.xpath("//img[@class='alignnone']/@src").extract()
         
         # print image
         return image
