@@ -122,3 +122,14 @@ float: left;
 td.contestant_name {
 	text-transform: capitalize;
 }
+
+/* Mobile Css */
+@media only screen and (max-width: 768px) {
+    #head_id, #foot_id {
+        padding-left:1.1em;
+        padding-right:1.1em;
+    }
+    #second {
+        padding-bottom: 5.2em;
+    }
+}
