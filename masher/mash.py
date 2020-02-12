@@ -9,8 +9,10 @@ from sqlalchemy import desc
 
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://test_user:root@localhost/mash_db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://mash_user:root@localhost/mash_db'
+# Testing database URI
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://mash_user:root@localhost/mash_db'
+# Production database URI
+app.config['DATABASE_URL'] = 'postgres://jnshsfpzctixno:cd9d471dab1c578f4b6cdceb5c6964b931ea953bea950b900769a1568ba0dd01@ec2-52-73-247-67.compute-1.amazonaws.com:5432/d2bep9ila9jgpu'
 # Initiate a DB object
 db = SQLAlchemy(app)
 
@@ -46,14 +48,19 @@ def populate_db():
         db.session.query(Contestant).delete()
         # As everytime data from db is deleted in postgres, it's id sequence number next time start from last updated + 1 
         # So allow sequence number to start from 1 only
-        db.session.execute('ALTER SEQUENCE "contestant_id_seq" RESTART WITH 1')
+        # db.session.execute('ALTER SEQUENCE "contestant_id_seq" RESTART WITH 1')
+        # db.session.execute('ALTER TABLE `contestant` AUTO_INCREMENT = 1;')
         db.session.commit()
     except Exception as e:
         print e
         db.session.rollback()
         return render_template('db_response.html', success=False)
 
-    for image in os.listdir('static/images/'):
+    # For local:
+    # images_location = 'static/images/'
+    # For Production:
+    images_location = 'masher/static/images/'
+    for image in os.listdir(images_location):
         # image_path = os.path.abspath(image)
         try:
             file_name_list = image.split('-')
