@@ -1,6 +1,6 @@
 ## Facemash
 
-Clone of facemash using Elo algorithm
+Clone of facemash in Python and Flask using Elo Algorithm
 
 
 ![Image description](screenshots/Screenshot_from_2020-02-19_22-33-50.png)
@@ -24,3 +24,7 @@ Then move all the images from /image_scraper/data/full to /masher/static/images/
 Go inside masher folder and run:
 
 	python mash.py
+
+Then for local run, hit url:
+	
+	127.0.0.1:5000

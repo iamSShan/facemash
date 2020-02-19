@@ -1,7 +1,6 @@
 ### Database Description
 
-Create a postgres DB of name mash_db and postgres user of name mash_user
-Then 
+Create a postgres DB of name mash_db and postgres user of name mash_user, Then 
 
 	ALTER USER mash_user PASSWORD 'root';
 
